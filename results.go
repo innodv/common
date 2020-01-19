@@ -12,6 +12,7 @@ type Result struct {
 }
 
 type ExecutionResult struct {
+	Success  bool     `json:"success"`
 	Error    string   `json:"error,omitempty"`
 	Warnings []string `json:"warnings,omitempty"`
 	Path     string   `json:"path,omitempty"`
