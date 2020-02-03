@@ -14,17 +14,17 @@ import (
 )
 
 type Request struct {
-	ID         string    `json:"id"`
-	Timestamp  time.Time `json:"timestamp"`
-	URL        string    `json:"url"`
-	Version    string    `json:"version"`
-	Hash       string    `json:"hash"`
-	VCS        string    `json:"vcs"`
+	ID         string    `json:"id,omitempty" cli:"id,omitempty"`
+	Timestamp  time.Time `json:"timestamp,omitempty" cli:"timestamp,omitempty"`
+	URL        string    `json:"url,omitempty" cli:"url,omitempty"`
+	Version    string    `json:"version,omitempty" cli:"version,omitempty"`
+	Hash       string    `json:"hash,omitempty" cli:"hash,omitempty"`
+	VCS        string    `json:"vcs,omitempty" cli:"vcs,omitempty"`
 	source     string
-	Name       string                 `json:"name"`
-	NormalName string                 `json:"-"`
-	Meta       map[string]interface{} `json:"meta"`
-	Token      auth.Token             `json:"token"`
+	Name       string                 `json:"name,omitempty" cli:"name,omitempty"`
+	NormalName string                 `json:"-,omitempty" cli:"-,omitempty"`
+	Meta       map[string]interface{} `json:"meta,omitempty" cli:"meta,omitempty"`
+	Token      auth.Token             `json:"token,omitempty" cli:"token,omitempty"`
 }
 
 func (req Request) MarshalFirebase() (map[string]interface{}, error) {
