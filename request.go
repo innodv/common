@@ -9,8 +9,6 @@ package common
 import (
 	"encoding/json"
 	"time"
-
-	"firebase.google.com/go/auth"
 )
 
 type Request struct {
@@ -24,7 +22,7 @@ type Request struct {
 	Name       string                 `json:"name,omitempty" cli:"name,omitempty"`
 	NormalName string                 `json:"-,omitempty" cli:"-,omitempty"`
 	Meta       map[string]interface{} `json:"meta,omitempty" cli:"meta,omitempty"`
-	Token      auth.Token             `json:"token,omitempty" cli:"token,omitempty"`
+	UID        string                 `json:"uid,omitempty" cli:"user,omitempty"`
 }
 
 func (req Request) MarshalFirebase() (map[string]interface{}, error) {
@@ -38,6 +36,5 @@ func (req Request) MarshalFirebase() (map[string]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	delete(out, "token")
 	return out, nil
 }
