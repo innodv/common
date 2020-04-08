@@ -31,6 +31,6 @@ type LicenseResult struct {
 
 type RawResult struct {
 	Module Module
-	UID string
-	ReqID string
+	UID    string
+	ReqID  string
 }
