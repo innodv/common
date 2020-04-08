@@ -28,3 +28,9 @@ type LicenseResult struct {
 	Counts   map[string]int64       `json:"counts,omitempty" cli:"counts,omitempty"`
 	Indeces  []string               `json:"indeces,omitempty" cli:"indeces,omitempty"`
 }
+
+type RawResult struct {
+	Module Module
+	UID string
+	ReqID string
+}
