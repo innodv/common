@@ -31,6 +31,7 @@ type LicenseResult struct {
 
 type RawResult struct {
 	Module Module
+	Error  error
 	UID    string
 	ReqID  string
 }
