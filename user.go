@@ -6,12 +6,12 @@
 
 package common
 
-import(
+import (
 	"database/sql"
 )
 
 type User struct {
-	ID string `db:"id"`
+	ID             string         `db:"id"`
 	GithubUsername sql.NullString `db:"github_username"`
-	Plan string `db:"plan"`
+	Plan           string         `db:"plan"`
 }
