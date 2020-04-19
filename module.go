@@ -133,3 +133,20 @@ func (mod Module) GetName() string {
 func (mod Module) GetUniqueName() string {
 	return mod.GetName() + mod.GetSubIndex()
 }
+
+func (mod Module) GetVCS() string {
+	if mod.VCS == "" {
+		return "git"
+	}
+	return mod.VCS
+}
+
+func (mod Module) GetTrunc() map[string]interface{} {
+	return map[string]interface{}{
+		"name":     mod.GetName(),
+		"version":  mod.Version,
+		"hash":     mod.Hash,
+		"licenses": mod.Licenses,
+		"vcs":      mod.GetVCS(),
+	}
+}
