@@ -23,6 +23,7 @@ type Request struct {
 	NormalName string                 `json:"-,omitempty" cli:"-,omitempty"`
 	Meta       map[string]interface{} `json:"meta,omitempty" cli:"meta,omitempty"`
 	UID        string                 `json:"uid,omitempty" cli:"user,omitempty"`
+	PR         PRContext
 }
 
 func (req Request) MarshalFirebase() (map[string]interface{}, error) {

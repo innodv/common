@@ -29,9 +29,21 @@ type LicenseResult struct {
 	Indeces  []string               `json:"indeces,omitempty" cli:"indeces,omitempty"`
 }
 
+type PRContext struct {
+	Provider string //e.g. github
+	Owner    string
+	Repo     string
+	Number   int
+}
+
+func (prc PRContext) Empty() bool {
+	return prc.Provider == "" && prc.Owner == "" && prc.Repo == "" && prc.Number == 0
+}
+
 type RawResult struct {
 	Module Module
 	Error  error
 	UID    string
 	ReqID  string
+	PR     PRContext
 }
