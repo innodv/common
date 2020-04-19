@@ -8,6 +8,7 @@ package common
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
 )
 
@@ -149,4 +150,98 @@ func (mod Module) GetTrunc() map[string]interface{} {
 		"licenses": mod.Licenses,
 		"vcs":      mod.GetVCS(),
 	}
+}
+
+func (mod Module) depMap() map[string]map[string]interface{} {
+	deps := map[string]map[string]interface{}{}
+	for _, dep := range mod.Dependencies {
+		deps[dep.GetUniqueName()] = dep.GetTrunc()
+		moarDeps := dep.depMap()
+		for name, val := range moarDeps {
+			deps[name] = val
+		}
+	}
+	return deps
+}
+
+func (mod Module) FlatDeps() []map[string]interface{} {
+	deps := mod.depMap()
+	out := []map[string]interface{}{}
+	for _, vals := range deps {
+		out = append(out, vals)
+	}
+	return out
+}
+
+func (mod Module) ToText() string {
+	return fmt.Sprintf("name=%s url=%s ", mod.GetName(), mod.GetURL()) +
+		fmt.Sprintf(" index=%s licenses=%v", mod.GetSubIndex(), mod.Licenses)
+}
+
+func (mod Module) IsFresh() bool {
+	return !mod.NotFresh
+}
+
+func (mod *Module) Add(key string, val interface{}) {
+	if mod.Meta == nil {
+		mod.Meta = map[string]interface{}{}
+	}
+	mod.Meta[key] = val
+}
+
+func (mod Module) getURL() string {
+	if mod.URL != "" {
+		return mod.URL
+	}
+	return "https://" + mod.Name
+}
+
+func (mod Module) GetURL() string {
+	out := mod.getURL()
+	if !strings.HasPrefix(out, "http") {
+		return "https://" + out
+	}
+	return out
+}
+
+func (mod *Module) UpdateVersion(vers Version) {
+	if vers.IsHashSet() {
+		mod.Hash = vers.Hash
+	} else {
+		mod.Version = vers.Branch
+	}
+}
+
+func (mod Module) GetVersion() Version {
+	return Version{
+		Hash:   mod.Hash,
+		Branch: mod.Version,
+	}
+}
+
+func (mod Module) IsSame(name string) bool {
+	if len(mod.Name) == len(name) && mod.Name == name {
+		return true
+	}
+	if len(mod.Name) > len(name) && strings.HasPrefix(mod.Name, name) {
+		return true
+	}
+	if len(mod.Name) < len(name) && strings.HasPrefix(name, mod.Name) {
+		return true
+	}
+
+	if mod.NormalName == "" {
+		return false
+	}
+
+	if len(mod.NormalName) == len(name) && mod.NormalName == name {
+		return true
+	}
+	if len(mod.NormalName) > len(name) && strings.HasPrefix(mod.NormalName, name) {
+		return true
+	}
+	if len(mod.NormalName) < len(name) && strings.HasPrefix(name, mod.NormalName) {
+		return true
+	}
+	return false
 }
