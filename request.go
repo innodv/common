@@ -20,7 +20,7 @@ type Request struct {
 	VCS        string                 `json:"vcs,omitempty" cli:"vcs,omitempty"`
 	Source     string                 `json:"-" cli:"-"`
 	Name       string                 `json:"name,omitempty" cli:"name,omitempty"`
-	NormalName string                 `json:"-,omitempty" cli:"-,omitempty"`
+	NormalName string                 `json:"-" cli:"-"`
 	Meta       map[string]interface{} `json:"meta,omitempty" cli:"meta,omitempty"`
 	UID        string                 `json:"uid,omitempty" cli:"user,omitempty"`
 	PR         PRContext
